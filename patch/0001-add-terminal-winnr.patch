@@ -1,0 +1,39 @@
+From 8a71f55952717098b482180250c4aede00692071 Mon Sep 17 00:00:00 2001
+From: HP-cmd <zgpio@qq.com>
+Date: Sat, 24 Nov 2018 13:13:00 +0800
+Subject: [PATCH 1/2] add terminal winnr
+
+---
+ autoload/airline/extensions/term.vim | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/autoload/airline/extensions/term.vim b/autoload/airline/extensions/term.vim
+index c5b578e..eb2e75d 100644
+--- a/autoload/airline/extensions/term.vim
++++ b/autoload/airline/extensions/term.vim
+@@ -8,8 +8,8 @@ function! airline#extensions#term#apply(...)
+     let spc = g:airline_symbols.space
+ 
+     let name=get(g:airline_mode_map, 't', 't')
+-    call a:1.add_section('airline_a', spc.name.spc)
+-    call a:1.add_section('airline_b', '')
++    call a:1.add_section('airline_a', spc.airline#section#create(['nr']).spc)
++    call a:1.add_section('airline_b', spc.name.spc)
+     call a:1.add_section('airline_term', spc.s:termname())
+     call a:1.split()
+     call a:1.add_section('airline_y', '')
+@@ -21,8 +21,9 @@ endfunction
+ function! airline#extensions#term#inactive_apply(...)
+   if getbufvar(a:2.bufnr, '&buftype') == 'terminal'
+     let spc = g:airline_symbols.space
+-    call a:1.add_section('airline_a', spc.'TERMINAL'.spc)
+-    call a:1.add_section('airline_b', spc.'%f')
++    call a:1.add_section('airline_a', spc.airline#section#create(['nr']).spc)
++    call a:1.add_section('airline_b', spc.'TERMINAL'.spc)
++    call a:1.add_section('airline_c', spc.'%f')
+     return 1
+   endif
+ endfunction
+-- 
+2.20.1 (Apple Git-117)
+

@@ -1,0 +1,60 @@
+{
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "objc", "objcpp"],
+      "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+      "initializationOptions": {
+         "cache": {
+           "directory": "/tmp/ccls"
+         },
+       }
+    },
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["go"]
+    },
+    "lua": {
+      "command": "~/.luarocks/bin/lua-lsp",
+      "filetypes": ["lua"]
+    }
+
+    //"clangd": {
+    //  "command": "/usr/local/opt/llvm/bin/clangd",
+    //  "rootPatterns": ["compile_flags.txt", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+    //  "filetypes": ["c", "cpp", "objc", "objcpp"]
+    //}
+  },
+  // https://github.com/voldikss/dotfiles/blob/master/vim/coc-settings.json
+  // :h coc-
+  "suggest.completionItemKindLabels": {
+      "keyword": "",
+      "variable": "",
+      "value": "",
+      "operator": "Ψ",
+      "function": "ƒ",
+      "reference": "渚",
+      "constant": "",
+      "method": "",
+      "struct": "פּ",
+      "class": "",
+      "interface": "",
+      "text": "",
+      "enum": "",
+      "enumMember": "",
+      "module": "",
+      "color": "",
+      "property": "",
+      "field": "料",
+      "unit": "",
+      "event": "鬒",
+      "file": "",
+      "folder": "",
+      "snippet": "",
+      "typeParameter": "",
+      "default": ""
+  },
+  //"suggest.numberSelect": true
+  "explorer.icon.enableNerdfont": true
+}

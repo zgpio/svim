@@ -1,0 +1,768 @@
+# vim: set sw=2 sts=4 et tw=78 foldmarker=, foldlevel=0 foldmethod=marker:
+# hook_add/on_cmd/on_map/on_event are collected into state_gvim.vim
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-devicons'  # Mirror: 'ryanoasis/vim-devicons'
+on_source = 'vim-startify'
+hook_post_source = '''
+function! StartifyEntryFormat()
+    return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+endfunction
+'''
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-startify'  # Mirror: 'mhinz/vim-startify'
+#depends = 'vim-devicons'
+on_cmd = 'SSave'
+hook_add = '''
+nnoremap <silent> <leader>s :Startify<CR>
+let g:startify_session_dir = '~/.cache/vimfiles/session'
+let g:startify_session_before_save = [
+    \ 'echo "Cleaning up before saving.."',
+    \ ]
+'''
+# hook_source可以使用自动加载函数是因为在调用hook_source时插件以加入rtp,
+# 而不能使用plugin函数
+hook_source = 'source $root/rc/plugins/startify.vim'
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/wildfire.vim'  # Mirror: 'gcmt/wildfire.vim'
+on_map = '<Plug>(wildfire-'
+# dirty hack: silent! unmap <buffer> <CR>
+hook_add = '''
+let s:ftIgnore = ['qf']
+autocmd MyAutoCmd BufReadPre *
+    \ if index(s:ftIgnore, &ft) < 0
+    \|  map <buffer> <CR> <Plug>(wildfire-fuel)
+    \|endif
+'''
+hook_source = '''
+let g:wildfire_objects = {
+    \ "*" : ["i'", 'i"', "i)", "i]", "i}", "ip"],
+    \ "html,xml" : ["at"],
+    \ }
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-gutentags'  # Mirror: 'ludovicchabant/vim-gutentags'
+on_ft = ['python', 'cpp', 'c', 'vim']
+hook_add = '''
+" NOTE: cscope and ctags cannot work together; cscope only support C/C++
+let g:gutentags_modules = ['ctags']
+'''
+
+[[plugins]]
+# 相对 TagList 能更好的支持面向对象
+repo = 'https://gitee.com/zgpio/tagbar'  # Modified: 'majutsushi/tagbar'
+#on_if = 'exists("b:gutentags_root")'
+on_map = {n = ['tb']}
+hook_source = '''
+" 当ctags可执行文件在$PATH环境变量中, 就不需要配置g:tagbar_ctags_bin
+nmap tb :TagbarToggle<CR>
+"let g:tagbar_width=50
+"let g:tagbar_left=1
+let g:tagbar_map_showproto = ''
+let g:tagbar_sort = 0
+" 自动打开影响cscope的使用体验
+"autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx call tagbar#autoopen()
+
+":h cterm-colors 和 :h gui-colors查看gui和终端支持的颜色来配置tagbar-highlight
+" 修改函数签名(Function signatures)的配色(默认配色在Solarized配色环境下对比度低)
+highlight TagbarSignature guifg=Purple ctermfg=Green
+
+" TODO: 通过注释了tagbar源码中所有的状态行更新代码, 使得airline获得控制权
+"function! TagbarStatusFunc(current, sort, fname, flags, ...) abort
+"    let colour = a:current ? '%#StatusLine#' : '%#StatusLineNC#'
+"    let flagstr = join(a:flags, '')
+"    if flagstr != ''
+"        let flagstr = '[' . flagstr . '] '
+"    endif
+"    return '[' . winnr() . ']' . colour . '[' . a:sort . '] ' . flagstr . a:fname
+"endfunction
+"let g:tagbar_status_func = 'TagbarStatusFunc'
+'''
+
+[[plugins]]
+repo = 'https://github.com/pseewald/vim-anyfold'  # Mirror: ''
+on_ft = ['python', 'cpp', 'c', 'vim']
+hook_add = '''
+autocmd Filetype * AnyFoldActivate
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/rainbow'  # Mirror: 'luochen1990/rainbow'
+on_event = 'BufRead'
+hook_source = '''
+" 0 if you want to enable it later via :RainbowToggle
+let g:rainbow_active = 1
+'''
+
+# [[plugins]]
+# # 用于显示对齐线, 与 indent_guides 在显示方式上不同
+# repo = 'https://gitee.com/zgpio/indentLine'  # Mirror: 'Yggdroot/indentLine'
+# on_ft = ['vim', 'python', 'c', 'cpp']
+# hook_source = '''
+# "nmap <leader>il :IndentLinesToggle<CR>
+# let g:indentLine_fileTypeExclude = ['json', 'help', 'startify', 'defx', 'tagbar']
+# let g:indentLine_bufTypeExclude = ['help', 'terminal']
+# " ┊┆¦|│
+# let g:indentLine_char = "│"
+# let g:indentLine_first_char = "│"
+#
+# " 设置终端对齐线颜色
+# "let g:indentLine_color_term = 239
+#
+# " 设置GUI对齐线颜色
+# "let g:indentLine_color_gui = '#A4E57E'
+# '''
+
+# auto-pairs插件源码中: au BufEnter * :call AutoPairsTryInit()
+# TODO:
+# 不加文件参数启动vim时, 不会触发bufread event,
+#   bufread造成'())'的原因是dein在InsertCharPre event时加载插件的feedkeys行为
+[[plugins]]
+repo = 'https://gitee.com/zgpio/auto-pairs'  # Mirror: 'jiangmiao/auto-pairs'
+# on_event = 'InsertEnter'
+on_event = 'BufRead'
+
+# [[plugins]]
+# repo = 'https://gitee.com/zgpio/vim-translator'
+# on_cmd = ['Ydc', 'Yde', 'Ydv']
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-translate-me'  # Mirror: 'voldikss/vim-translate-me'
+on_if = 1
+hook_source = '''
+let g:vtm_default_mapping = 0
+" <Leader>t 翻译光标下的文本，在命令行回显翻译内容
+"nmap <silent> <Leader>t <Plug>Translate
+"vmap <silent> <Leader>t <Plug>TranslateV
+" Leader>w 翻译光标下的文本，在窗口中显示翻译内容
+nmap <silent> <Leader>t <Plug>TranslateW
+vmap <silent> <Leader>t <Plug>TranslateWV
+" Leader>r 替换光标下的文本为翻译内容
+"nmap <silent> <Leader>r <Plug>TranslateR
+"vmap <silent> <Leader>r <Plug>TranslateRV
+'''
+
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/LeaderF'  # Mirror: 'Yggdroot/LeaderF'
+# {}括号的使用
+on_map = {n = ['<leader>f']}
+# on_map = {n = ['<leader>f', '<leader>b']}
+#build = '.\install.bat'
+hook_post_update = '''
+let rtp = dein#get('LeaderF')['rtp']
+exe 'cd ' . rtp
+wincmd n
+if g:Windows
+    term .\install.bat
+else
+    term ./install.sh
+endif
+'''
+hook_source = '''
+let g:Lf_ShortcutB = ''
+call vimrc#on_filetype()
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-gitgutter'  # Mirror: 'airblade/vim-gitgutter'
+on_event = 'BufRead'
+hook_source = '''
+nmap <leader>gk <Plug>(GitGutterPrevHunk)
+nmap <leader>gj <Plug>(GitGutterNextHunk)
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-signify'  # Mirror: 'mhinz/vim-signify'
+# on_map = '<plug>'
+# on_event = 'BufRead'
+hook_add = '''
+'''
+hook_source = '''
+"let g:signify_update_on_bufenter = 1
+"let g:signify_update_on_focusgained = 1
+":verbose command SignifyRefresh
+autocmd MyAutoCmd ShellCmdPost * if !&modified | call sy#util#refresh_windows() | endif
+" TODO after vimrc reload
+autocmd MyAutoCmd BufEnter * if !&modified | call sy#util#refresh_windows() | endif
+
+nmap <leader>gj <plug>(signify-next-hunk)
+nmap <leader>gk <plug>(signify-prev-hunk)
+nmap <leader>gJ 9999<leader>gj
+nmap <leader>gK 9999<leader>gk
+omap ic <plug>(signify-motion-inner-pending)
+xmap ic <plug>(signify-motion-inner-visual)
+omap ac <plug>(signify-motion-outer-pending)
+xmap ac <plug>(signify-motion-outer-visual)
+'''
+# FIXME 当替换为on_event时第一次打开文件, filetype未识别
+# #304 似乎是fugitive和dein之间的问题
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-fugitive'  # Mirror: 'tpope/vim-fugitive'
+# on_map = '<leader>g'
+on_event = 'BufRead'
+hook_source = '''
+:cabbrev git Git
+nnoremap <silent> <leader>gs :Gstatus<CR>
+nnoremap <silent> <leader>gd :Gdiff<CR>
+nnoremap <silent> <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gb :Gblame<CR>
+nnoremap <silent> <leader>gl :Glog<CR>
+nnoremap <silent> <leader>gp :G -p push<CR>
+nnoremap <silent> <leader>gu :G -p pull<CR>
+nnoremap <silent> <leader>gr :Gread<CR>
+nnoremap <silent> <leader>gw :Gwrite<CR>
+nnoremap <silent> <leader>ge :Gedit<CR>
+" Mnemonic _i_nteractive
+nnoremap <silent> <leader>gi :G add -p %<CR>
+nnoremap <silent> <leader>gI :G add -p<CR>
+nnoremap <silent> <leader>gA :G add --all<CR>
+nnoremap <silent> <leader>gR :G reset<CR>
+
+nnoremap <silent> <leader>gg :SignifyToggle<CR>
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-easymotion'  # Mirror: 'easymotion/vim-easymotion'
+# on_map = {n = '<leader><leader>'}
+# TODO
+on_map = {n = '<Plug>(easymotion-prefix)'}
+hook_add = '''
+map ; <Plug>(easymotion-prefix)
+map ;l <Plug>(easymotion-overwin-line)
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-signature'  # Mirror: 'kshenoy/vim-signature'
+# 并不是启动时加载, :h on_if
+on_if = 1
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/neoyank.vim'  # Mirror: 'Shougo/neoyank.vim'
+on_if = 1
+on_event = 'TextYankPost'
+on_source = ['denite.nvim']
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/echodoc.vim'  # Mirror: 'Shougo/echodoc.vim'
+on_event = 'CompleteDone'
+hook_source = '''
+" let g:echodoc#type = 'signature'
+call echodoc#enable()
+'''
+
+# dead 
+# format 
+#[[plugins]]
+#repo = 'https://gitee.com/zgpio/vim-clang-format'  # Mirror: 'rhysd/vim-clang-format'
+#on_ft = ['cpp', 'c']
+#hook_source = '''
+#let g:clang_format#style_options = {
+#            \ "AccessModifierOffset" : -4,
+#            \ "AllowShortIfStatementsOnASingleLine" : "true",
+#            \ "AlwaysBreakTemplateDeclarations" : "true",
+#            \ "Standard" : "C++11",
+#            \ "BreakBeforeBraces" : "Stroustrup"}
+#'''
+
+#[[plugins]]
+#repo = 'https://gitee.com/zgpio/vim-autopep8'  # Mirror: 'tell-k/vim-autopep8'
+#on_ft = 'python'
+# 
+
+#[[plugins]]
+#repo = 'thinca/vim-scouter'
+
+# [[plugins]]
+# repo = 'tpope/vim-commentary'
+# [[plugins]]
+# repo = 'scrooloose/nerdcommenter'
+# on_event = 'FileType'
+# # TODO python inline comment
+# hook_source = '''
+#     " 插件默认快捷键如下，其中的说明是以C/C++为例的，其它语言类似
+#     " <Leader>ci InvertComment 倒置选中行(选中区域所在行)的注释状态
+#     " <Leader>cm MinimalComment 以一个 /* */ 注释选中行(选中区域所在行)，再输入则重复注释
+#     " <Leader>cc Comment 注释当前行 或 在visual模式下选择的文本，再输入则重复注释
+#     " <Leader>cu UncommentLine 取消选中区域(行)的注释，选中区域(行)内至少有一个注释
+#     " <Leader>ca AltDelim 在/* */与//这两种注释方式中切换（其它语言可能不一样了）
+#     " <Leader>cA AppendComment 行尾注释
+#     let g:NERDSpaceDelims = 1                     "在左注释符之后，右注释符之前留有空格
+#     let g:NERDCustomDelimiters = {
+#         \ 'python': { 'left': '#', 'leftAlt': 'FOO', 'rightAlt': 'BAR' },
+#         \ 'ruby': { 'left': '#', 'leftAlt': 'FOO', 'rightAlt': 'BAR' },
+#         \ 'grondle': { 'left': '{{', 'right': '}}' }
+#     \ }
+# '''
+
+#[[plugins]]
+#repo = 'lambdalisue/vim-findent'
+
+#[[plugins]]
+#repo = 'tweekmonster/helpful.vim'
+#on_cmd = 'HelpfulVersion'
+
+# Ultimate hex editing system with Vim
+#[[plugins]]
+#repo = 'Shougo/vinarise.vim'
+#on_cmd = 'Vinarise'
+#hook_add = '''
+#let g:vinarise_enable_auto_detect = 1
+#let g:vinarise_guifont = 'Courier\ 10\ Pitch:h14'
+#'''
+
+#[[plugins]]
+#repo = 'kana/vim-niceblock'
+#on_map = {x = '<Plug>'}
+#hook_add = '''
+#  xmap I  <Plug>(niceblock-I)
+#  xmap A  <Plug>(niceblock-A)
+#'''
+
+#[[plugins]]
+#repo = 'liuchengxu/vista.vim'
+#on_if = 1
+
+# [[plugins]]
+# repo = 'davidhalter/jedi-vim'
+# on_ft = 'python'
+# hook_source = '''
+# '''
+
+#[[plugins]]
+#repo = 'Shougo/neco-syntax'
+
+#[[plugins]]
+#repo = 'Shougo/neosnippet.vim'
+#depends = ['neosnippet-snippets', 'context_filetype.vim']
+#on_event = 'InsertCharPre'
+#on_ft = 'snippet'
+#hook_source = '''
+#  imap <silent>L     <Plug>(neosnippet_jump_or_expand)
+#  smap <silent>L     <Plug>(neosnippet_jump_or_expand)
+#  xmap <silent>L     <Plug>(neosnippet_expand_target)
+#
+#  let g:neosnippet#enable_snipmate_compatibility = 1
+#  let g:neosnippet#enable_completed_snippet = 1
+#  let g:neosnippet#expand_word_boundary = 1
+#
+#  " let g:snippets_dir = '~/.vim/snippets/,~/.vim/bundle/snipmate/snippets/'
+#  let g:neosnippet#snippets_directory = '~/.vim/snippets'
+#  autocmd MyAutoCmd CompleteDone * call neosnippet#complete_done()
+#'''
+
+#[[plugins]]
+#repo = 'Shougo/neosnippet-snippets'
+
+# 
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/denite.nvim'  # Mirror: 'Shougo/denite.nvim'
+on_cmd = 'Denite'
+hook_source = 'source $root/rc/plugins/denite.vim'
+hook_add = '''
+" TODO 不支持双引号 -split="floating"
+nnoremap <silent> ;r :<C-u>Denite -split='floating' -buffer-name=register register neoyank<CR>
+xnoremap <silent> ;r :<C-u>Denite -default-action=replace -buffer-name=register register neoyank<CR>
+
+nnoremap <silent> [Window]<Space> :<C-u>Denite -start-filter file/rec:$root<CR>
+" 要求Note在home目录
+nnoremap <silent> mm :<C-u>Denite -start-filter file/rec:~/Note<CR>
+nnoremap <silent><expr> / line('$') > 100000 ? '/' :
+    \ ":\<C-u>Denite -split='floating' -buffer-name=search -smartcase -start-filter line\<CR>"
+nnoremap <silent> * :<C-u>DeniteCursorWord -split='floating' -buffer-name=search line<CR>
+nnoremap <silent> [Window]s :<C-u>Denite file/point file/old -sorters=sorter/rank
+    \ `finddir('.git', ';') != '' ? 'file/rec/git' : 'file/rec'` file file:new<CR>
+
+nnoremap <silent> [Space]b :<C-u>Denite -split='floating' -buffer-name=search buffer<CR>
+nnoremap <silent><expr> tt  &filetype == 'help' ?  "g\<C-]>" :
+    \ ":\<C-u>DeniteCursorWord -buffer-name=tag -immediately tag:include\<CR>"
+nnoremap <silent><expr> tp  &filetype == 'help' ? ":\<C-u>pop\<CR>" : ":\<C-u>Denite jump\<CR>"
+
+nnoremap <silent> [Window]n :<C-u>Denite -start-filter dein<CR>
+"nnoremap <silent> [Window]g :<C-u>Denite ghq<CR>
+nnoremap <silent> ;g :<C-u>Denite -buffer-name=search -no-empty grep<CR>
+" TODO: 面向project的搜索
+nnoremap <silent> gs :<C-u>DeniteCursorWord -buffer-name=search -no-empty grep<CR>
+nnoremap <silent> n :<C-u>Denite -buffer-name=search -resume -refresh<CR>
+"nnoremap <silent> ft :<C-u>Denite filetype<CR>
+"nnoremap <silent> <C-t> :<C-u>Denite -select=`tabpagenr()-1` -mode=normal deol:zsh<CR>
+nnoremap <silent> <C-k> :<C-u>Denite change jump<CR>
+
+"nnoremap <silent> [Space]gs :<C-u>Denite gitstatus<CR>
+nnoremap <silent> ;; :<C-u>Denite command command_history<CR>
+'''
+[plugins.ftplugin]
+denite = '''
+" TODO mapclear <buffer>, temporary use <nowait>
+" Define mappings
+nnoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
+nnoremap <silent><buffer><expr> a denite#do_map('choose_action')
+nnoremap <silent><buffer><expr> d denite#do_map('do_action', 'delete')
+nnoremap <silent><buffer><expr> p denite#do_map('do_action', 'preview')
+nnoremap <silent><buffer><expr> q denite#do_map('quit')
+nnoremap <silent><buffer><expr><nowait> ' denite#do_map('quick_move')
+nnoremap <silent><buffer><expr> i denite#do_map('open_filter_buffer')
+nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
+nnoremap <silent><buffer><expr> U denite#do_map('do_action', 'dein_update')
+nnoremap <silent><buffer><expr> O denite#do_map('do_action', 'dein_open')
+" TODO: 全局替换
+"nnoremap <silent><buffer><expr> R denite#do_map('do_action', 'replace')
+
+"call denite#custom#map('insert', '<C-r>', '<denite:toggle_matchers:matcher/substring>', 'noremap')
+"call denite#custom#map('insert', '<C-s>', '<denite:toggle_sorters:sorter/reverse>', 'noremap')
+"call denite#custom#map('normal', 'r', '<denite:do_action:quickfix>', 'noremap')
+" call denite#custom#map('insert', ';', 'vimrc#sticky_func()', 'noremap expr')
+nnoremap <silent><buffer><expr><nowait> s denite#do_map('do_action', 'split')
+
+'''
+[ftplugin]
+denite-filter = '''
+inoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
+imap <silent><buffer> <c-k> <Plug>(denite_filter_quit)
+imap <silent><buffer><expr> <esc> denite#do_map('quit')
+nmap <silent><buffer><expr> <esc> denite#do_map('quit')
+'''
+
+# TODO: lazy load
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-multiple-cursors'  # Mirror: 'terryma/vim-multiple-cursors'
+on_if = 1
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/defx.nvim'  # Mirror: 'Shougo/defx.nvim'
+on_cmd = 'Defx'
+hook_add = '''
+nnoremap <silent> [Space]e :<C-u>Defx -columns=mark:indent:git:icons:filename:type -split=vertical -direction=topleft -winwidth=40 -listed -resume <CR>
+nnoremap <silent> <Leader>xdf :Defx -split=vertical -winwidth=40
+            \ -columns=mark:indent:git:icons:filename:type:size -show-ignored-files
+            \ -direction=topleft `expand('%:p:h')` -search=`expand('%:p')`<CR>
+            \ :Defx -new -split=horizontal
+            \ -columns=mark:indent:git:icons:filename:type:size -show-ignored-files<CR>
+            \ :wincmd p<CR>
+'''
+hook_source = '''
+call defx#custom#column('mark', {
+    \ 'readonly_icon': '✗',
+    \ 'selected_icon': '✓',
+    \ })
+call defx#custom#column('icon', {
+    \ 'directory_icon': '▷',
+    \ 'opened_icon': '▽',
+    \ 'root_icon': ' ',
+    \ })
+call defx#custom#column('filename', {
+    \ 'max_width': 1000,
+    \ })
+'''
+[plugins.ftplugin]
+defx = '''
+" nnoremap <silent><buffer><expr> t defx#do_action('trans', expand("<cword>"))
+" Define mappings
+set nonu norelativenumber
+
+nnoremap <silent><buffer><expr> <CR> defx#async_action('drop')
+nnoremap <silent><buffer><expr> s defx#do_action('multi', [['drop', 'split']])
+nnoremap <silent><buffer><expr> s defx#do_action('drop', 'split')
+nnoremap <silent><buffer><expr> cp defx#do_action('copy')
+nnoremap <silent><buffer><expr> cd defx#do_action('call', 'vimrc#cdNode')
+nnoremap <silent><buffer><expr> ! defx#do_action('execute_command')
+nnoremap <silent><buffer><expr> m defx#do_action('move')
+nnoremap <silent><buffer><expr> p defx#do_action('paste')
+nnoremap <silent><buffer><expr> l defx#async_action('open')
+nnoremap <silent><buffer><expr> E defx#do_action('open', 'vsplit')
+nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
+nnoremap <silent><buffer><expr> o defx#async_action('open_or_close_tree')
+nnoremap <silent><buffer><expr> o defx#do_action('open_or_close_tree')
+nnoremap <silent><buffer><expr> O defx#async_action('open_tree_recursive')
+"nnoremap <silent><buffer><expr> K defx#do_action('new_directory')
+nnoremap <silent><buffer><expr> N defx#do_action('new_file')
+nnoremap <silent><buffer><expr> M defx#do_action('new_multiple_files')
+nnoremap <silent><buffer><expr> C defx#do_action('toggle_columns', 'mark:filename:type:size:time')
+nnoremap <silent><buffer><expr> S defx#do_action('toggle_sort', 'Time')
+nnoremap <silent><buffer><expr> se defx#do_action('save_session')
+nnoremap <silent><buffer><expr> sl defx#do_action('load_session')
+nnoremap <silent><buffer><expr> d defx#do_action('remove_trash')
+nnoremap <silent><buffer><expr> r defx#do_action('rename')
+nnoremap <silent><buffer><expr> x defx#do_action('execute_system')
+nnoremap <silent><buffer><expr> > defx#do_action('toggle_ignored_files')
+nnoremap <silent><buffer><expr> . defx#do_action('repeat')
+nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
+nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
+nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
+nnoremap <silent><buffer><expr> \ defx#do_action('cd', getcwd())
+nnoremap <silent><buffer><expr> q defx#do_action('quit')
+nnoremap <silent><buffer><expr> <Tab> defx#do_action('toggle_select') . 'j'
+nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
+nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
+nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
+nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
+nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
+"nnoremap <silent><buffer><expr> <Tab> winnr('$') != 1 ? ':<C-u>wincmd w<CR>' : ':<C-u>Defx -buffer-name=temp -split=vertical<CR>'
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-matchup'  # Mirror: 'andymass/vim-matchup'
+on_if = 1
+hook_source = '''
+let g:matchup_matchparen_status_offscreen = 0
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/tabular'  # Mirror: 'godlygeek/tabular'
+on_map = '<leader>a'
+hook_source = '''
+let s:ftIgnore = ['qf', 'defx', 'tree']
+autocmd MyAutoCmd FileType *
+  \ if index(s:ftIgnore, &ft) < 0
+  \|  nmap <Leader>a& :Tabularize /&<CR>
+  \|  vmap <Leader>a& :Tabularize /&<CR>
+  \|  nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+  \|  vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+  \|  nmap <Leader>a=> :Tabularize /=><CR>
+  \|  vmap <Leader>a=> :Tabularize /=><CR>
+  \|  nmap <Leader>a: :Tabularize /:<CR>
+  \|  vmap <Leader>a: :Tabularize /:<CR>
+  \|  nmap <Leader>a:: :Tabularize /:\zs<CR>
+  \|  vmap <Leader>a:: :Tabularize /:\zs<CR>
+  \|  nmap <Leader>a, :Tabularize /,<CR>
+  \|  vmap <Leader>a, :Tabularize /,<CR>
+  \|  nmap <Leader>a,, :Tabularize /,\zs<CR>
+  \|  vmap <Leader>a,, :Tabularize /,\zs<CR>
+  \|  nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+  \|  vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+  \|endif
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/junkfile.vim'  # Mirror: 'Shougo/junkfile.vim'
+on_source = 'denite.nvim'
+hook_add = '''
+nnoremap <silent> [Window]e :<C-u>Denite junkfile:new junkfile<CR>
+'''
+
+
+#[[plugins]]
+#repo = 'https://gitee.com/zgpio/vital.vim'  # Mirror: 'vim-jp/vital.vim'
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-fontzoom'  # Mirror: 'thinca/vim-fontzoom'
+#on_if = "has('gui_running')"
+on_map = {n = '<Plug>'}
+hook_add = '''
+nmap + <Plug>(fontzoom-larger)
+nmap _ <Plug>(fontzoom-smaller)
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-qfreplace'  # Mirror: 'thinca/vim-qfreplace'
+on_ft = ['qf']
+hook_source = '''
+autocmd MyAutoCmd FileType qf nnoremap <buffer> r :<C-u>Qfreplace<CR>
+'''
+
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/caw.vim'  # Mirror: 'tyru/caw.vim'
+on_map = {nx = '<Plug>'}
+hook_add = '''
+function! InitCaw() abort
+  if !&l:modifiable
+    silent! nunmap <buffer> gc
+    silent! xunmap <buffer> gc
+    silent! nunmap <buffer> gcc
+    silent! xunmap <buffer> gcc
+  else
+    nmap <buffer> gc <Plug>(caw:prefix)
+    xmap <buffer> gc <Plug>(caw:prefix)
+    nmap <buffer> gcc <Plug>(caw:hatpos:toggle)
+    xmap <buffer> gcc <Plug>(caw:hatpos:toggle)
+  endif
+endfunction
+let s:ignore = ['qf']
+autocmd MyAutoCmd FileType * if index(s:ignore, &ft) < 0 | call InitCaw() | endif
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/accelerated-jk'  # Mirror: 'rhysd/accelerated-jk'
+on_map = {n = '<Plug>'}
+hook_add = '''
+nmap <silent>j <Plug>(accelerated_jk_gj)
+nmap <silent>k <Plug>(accelerated_jk_gk)
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-surround'  # Mirror: 'tpope/vim-surround'
+on_event = 'InsertEnter'
+# hook_add = '''
+# let g:surround_no_mappings = 1
+# '''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-operator-user'  # Mirror: 'kana/vim-operator-user'
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-operator-surround'  # Mirror: 'rhysd/vim-operator-surround'
+depends = 'vim-operator-user'
+on_map = {n = '<Plug>'}
+# TODO: <buffer> map
+hook_add = '''
+let s:ftIgnore = ['qf', 'defx', 'tree']
+autocmd MyAutoCmd FileType *
+  \ if index(s:ftIgnore, &ft) < 0
+  \|  nmap <silent>sa <Plug>(operator-surround-append)a
+  \|  nmap <silent>sd <Plug>(operator-surround-delete)a
+  \|  nmap <silent>sr <Plug>(operator-surround-replace)a
+  \|  nmap <silent>sc <Plug>(operator-surround-replace)a
+  \|endif
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/open-browser.vim'  # Mirror: 'tyru/open-browser.vim'
+on_map = '<Plug>(openbrowser-smart-search)'
+hook_add = '''
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
+'''
+
+# TODO: 自动安装; 下载预编译的文件或本地编译安装体验都不好
+[[plugins]]
+repo = 'https://gitee.com/zgpio/markdown-preview.nvim'  # Mirror: 'iamcco/markdown-preview.nvim'
+on_ft = 'markdown'
+hook_post_update = '''
+let rtp = dein#get('markdown-preview.nvim')['rtp']
+echom rtp
+execute 'set runtimepath+=' . rtp
+call mkdp#util#install()
+'''
+hook_add = '''
+let g:mkdp_auto_close = 0
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-jplus'  # Mirror: 'osyo-manga/vim-jplus'
+on_map = {n = '<Plug>'}
+hook_add = '''
+let s:ftIgnore = ['qf', 'defx', 'tree']
+autocmd MyAutoCmd FileType *
+  \ if index(s:ftIgnore, &ft) < 0
+  \|  nmap <buffer>J <Plug>(jplus)
+  \|endif
+'''
+
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-smartchr'  # Mirror: 'kana/vim-smartchr'
+# on_event = 'InsertCharPre'  # 导致dein feedkeys并出发autopairs, 导致冗余括号
+on_event = 'InsertEnter'
+hook_source = '''
+inoremap <expr> , smartchr#one_of(', ', ',')
+"inoremap <expr> =
+"      \ search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
+"      \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
+"      \ : smartchr#one_of(' = ', '=', ' == ')
+augroup MyAutoCmd
+  " Substitute .. into ->
+  autocmd FileType c,cpp inoremap <buffer> <expr> .
+        \ smartchr#loop('.', '->', '...')
+  autocmd FileType vim inoremap <buffer> <expr> .
+        \ smartchr#loop('.', ' . ', '..', '...')
+
+augroup END
+'''
+
+
+[[plugins]]
+# Snippets are separated from the engine.
+repo = 'https://gitee.com/zgpio/vim-snippets'  # Mirror: 'honza/vim-snippets'
+
+[[plugins]]
+# Track the engine.
+repo = 'https://gitee.com/zgpio/ultisnips'  # Mirror: 'SirVer/ultisnips'
+on_ft = ['python', 'cpp', 'c', 'md', 'lua']
+depends = 'vim-snippets'
+# TODO terminal keymap <c-cr> for `ExpandTrigger`
+# TODO :h i_CTRL-K
+hook_source = '''
+" Trigger configuration. Do not use <tab> if you use Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger = "<c-l>"
+let g:UltiSnipsListSnippets = "<c-tab>"
+let g:UltiSnipsJumpForwardTrigger = "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/neomake'  # Mirror: 'neomake/neomake'
+on_ft = ['cpp', 'c']
+hook_source = '''
+" When writing a buffer (no delay).
+"call neomake#configure#automake('w')
+let g:neomake_warning_sign = {
+    \   'text': '',
+    \   'texthl': 'NeomakeWarningSign',
+    \ }
+let g:neomake_info_sign = {'text': '', 'texthl': 'NeomakeInfoSign'}
+let g:neomake_open_list = 2
+let g:neomake_place_signs = 0
+
+let g:neomake_virtualtext_current_error = 0
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/coc.nvim'  # Mirror: 'neoclide/coc.nvim'
+on_ft = ['vim', 'c', 'cpp', 'python', 'go']
+rev = 'release'
+depends = 'ultisnips'
+hook_post_update = '''
+call coc#util#install()
+'''
+hook_source = 'source $root/rc/plugins/coc.vim'
+
+# [[plugins]]
+# repo = '~/.cache/dein/repos/local/YouCompleteMe'  # Mirror: 'Valloric/YouCompleteMe'
+# on_ft = ['python', 'cpp', 'c']
+# hook_post_update = '''
+# let rtp = dein#get('YouCompleteMe')['rtp']
+# exe 'cd ' . rtp
+# :term python install.py --clang-completer
+# '''
+# hook_source = 'source $root/rc/plugins/ycm.vim'
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/neoformat'  # Mirror: 'sbdchd/neoformat'
+on_cmd = 'Neoformat'
+hook_source = '''
+source $root/rc/plugins/neoformat.vim
+'''
+# pip uninstall autopep8 -y
+# Ubuntu: ~/.local/bin/yapf
+hook_post_update = '''
+wincmd n
+term pip3 install --upgrade --user yapf
+"term pip install --upgrade --user autopep8
+'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/semshi'  # Mirror: 'numirias/semshi'
+on_ft = 'python'
+
+#[[plugins]]
+#repo = 'https://gitee.com/zgpio/deoplete.nvim'  # Mirror: 'Shougo/deoplete.nvim'
+#depends = 'context_filetype.vim'
+#on_ft = 'vim'
+#hook_source = '''
+#"let g:python3_host_prog = "C:/ProgramData/Anaconda3/python"
+#call deoplete#enable()
+#source $root/rc/plugins/deoplete.vim
+#'''
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/neco-vim'  # Mirror: 'Shougo/neco-vim'
+on_ft = 'vim'
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/nvim-colorizer.lua'  # Mirror: 'norcalli/nvim-colorizer.lua'
+on_cmd = 'ColorizerAttachToBuffer'

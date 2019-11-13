@@ -1,0 +1,118 @@
+#[[plugins]]
+#repo = 'Shougo/deoppet.nvim'
+
+#[[plugins]]
+#repo = 'vheon/vim-cursormode'
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-airline-themes'  # Mirror: 'vim-airline/vim-airline-themes'
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-airline'  # Modified: 'vim-airline/vim-airline'
+# 非lazy插件hook_source不被自动调用
+hook_add = '''
+source $root/rc/plugins/airline.vim
+'''
+
+# [[plugins]]
+# repo = '~/.vim/vim-zoom'
+
+############ vim lazy plugin ############
+[[plugins]]
+repo = 'https://gitee.com/zgpio/defx-git'  # Mirror: 'kristijanhusak/defx-git'
+[[plugins]]
+repo = 'https://gitee.com/zgpio/defx-icons'  # Mirror: 'kristijanhusak/defx-icons'
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/dein.vim'  # Mirror: 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-hug-neovim-rpc'  # Mirror: 'roxma/vim-hug-neovim-rpc'
+on_if = '!has("nvim")'
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/nvim-yarp'  # Mirror: 'roxma/nvim-yarp'
+
+#[[plugins]]
+#repo = 'uplus/deoplete-solargraph'
+
+#[[plugins]]
+#repo = 'icymind/NeoSolarized'
+# TODO vim-one conflict with ycm ID completion
+#repo = 'rakr/vim-one'
+[[plugins]]
+repo = 'https://gitee.com/zgpio/gruvbox'  # Mirror: 'morhetz/gruvbox'
+[[plugins]]
+repo = 'https://gitee.com/zgpio/onedark.vim'  # Mirror: 'joshdick/onedark.vim'
+
+[[plugins]]
+#repo = 'rcmdnk/vim-markdown'
+repo = 'https://gitee.com/zgpio/vim-markdown'  # Modified: 'plasticboy/vim-markdown'
+hook_add = '''
+let g:vim_markdown_strikethrough = 1
+'''
+#[[plugins]]
+#repo = 'suan/vim-instant-Markdown'
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vimtex'  # Mirror: 'lervag/vimtex'
+
+#[[plugins]]
+#repo = 'thinca/vim-themis'
+
+#[[plugins]]
+#repo = 'Peaches491/vim-glog-syntax'
+#[[plugins]]
+#repo = 'chiphogg/vim-prototxt'
+
+[[plugins]]
+#repo = 'vim-jp/cpp-vim'
+repo = 'octol/vim-cpp-enhanced-highlight.git'
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-toml'  # Mirror: 'cespare/vim-toml'
+[[plugins]]
+repo = 'delphinus/vim-toml-dein'
+
+#[[plugins]]
+#repo = 'vim-jp/autofmt'
+#set formatexpr=autofmt#japanese#formatexpr()
+
+#[[plugins]]
+#repo = 'nixprime/cpsm'
+#build = 'sh -c "PY3=ON ./install.sh"'
+
+#[[plugins]]
+#repo = 'kana/vim-textobj-user'
+
+#[[plugins]]
+#repo = 'kana/vim-operator-user'
+
+# Requirements: unite.vim and vimproc and ssh commands.
+# [[plugins]]
+# repo = 'Shougo/neossh.vim'
+
+# 设置indentexpr选项为自定义函数GetPythonPEPIndent
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-python-pep8-indent'  # Mirror: 'hynek/vim-python-pep8-indent'
+
+#[[plugins]]
+#repo = 'kballard/vim-fish'
+
+#[[plugins]]
+#repo = 'ujihisa/neco-look'
+
+#[[plugins]]
+#repo = 'thinca/vim-ft-diff_fold'
+#
+#[[plugins]]
+#repo = 'thinca/vim-ft-help_fold'
+
+#[[plugins]]
+#repo = 'chemzqm/denite-git'
+
+# Official Vim Runtime Files for Zsh
+#[[plugins]]
+#repo = 'chrisbra/vim-zsh'
+
+[[plugins]]
+repo = 'https://gitee.com/zgpio/context_filetype.vim'  # Mirror: 'Shougo/context_filetype.vim'

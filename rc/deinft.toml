@@ -1,0 +1,132 @@
+# :h dein-toml
+# It is the global hook_add.
+# dein将global hook_add的内容整合到state_gvim.vim中,
+# 由state_gvim.vim可知, hook_add中的vimL注释不影响效率.
+# 根据dein.vim, 当dein状态更新时, dein#end()将被调用, 全局hook_add也将被执行.
+hook_add = '''
+" syntax/python.vim, :h syntax
+let g:python_highlight_all = 1
+
+" Vim
+let g:vimsyntax_noerror = 1
+"let g:vim_indent_cont = 0
+
+" Bash
+
+" Tex
+"let g:tex_flavor = 'latex'
+
+" Markdown
+" Vim/vimxx/syntax/markdown.vim中使用了全局变量markdown_fenced_languages
+let g:markdown_fenced_languages = [
+    \ 'vim',
+    \ 'bash',
+    \]
+
+" :h g:vim_markdown_fenced_languages
+
+" Folding
+let g:tex_fold_enabled = 1
+"let g:xml_syntax_folding = 1
+
+" Update filetype.
+"autocmd MyAutoCmd BufWritePost * nested
+"\ if &l:filetype ==# '' || exists('b:ftdetect')
+"\|  unlet! b:ftdetect
+"\|  filetype detect
+"\|endif
+
+" Reload .vimrc automatically.
+"autocmd MyAutoCmd BufWritePost vimrc,*.vim,*.toml
+"    \ if expand('%:p') =~ '/.vim/'
+"    \|  source $MYVIMRC
+"    \|  echom expand('%:p') 'update, reload $MYVIMRC'
+"    \|  redraw
+"    \|  exe 'e'
+"    \|endif
+
+" Auto reload VimScript.
+autocmd MyAutoCmd BufWritePost,FileWritePost *.vim nested
+    \ if &l:autoread > 0
+    \|  source <afile>
+    \|  echo 'source ' . bufname('%')
+    \|endif
+'''
+
+# 以下内容被整合到dein\.cache\vimrc\.dein\after\ftplugin目录
+# 注意: 以下内容修改后不会自动recache, 即ftplugin中内容不会自动更新
+[ftplugin]
+
+# _ 主要在dein\.cache\vimrc\.dein\ftplugin.vim中起作用
+# "_" key is executed after all ftplugin.
+_ = '''
+"  " Disable automatically insert comment.
+"  setl formatoptions-=ro
+"  setl formatoptions+=mMBl
+"
+"  " Disable auto wrap.
+"  if &l:textwidth != 70 && &filetype !=# 'help'
+"    setlocal textwidth=0
+"  endif
+"
+"  " Use FoldCCtext().
+"  if &filetype !=# 'help'
+"    setlocal foldtext=FoldCCtext()
+"  endif
+"
+"  if !&l:modifiable
+"    setlocal nofoldenable
+"    setlocal foldcolumn=0
+"    setlocal colorcolumn=
+"  endif
+'''
+
+python = '''
+" Indent settings.
+"setlocal foldmethod=indent
+"setlocal softtabstop=4
+"setlocal shiftwidth=4
+"setlocal textwidth=80
+setlocal colorcolumn=80
+"setlocal smarttab
+"setlocal expandtab
+"setlocal nosmartindent
+
+set commentstring=#%s
+let g:python_pep8_indent_multiline_string = -2
+nmap <silent><buffer> <leader>rr :Semshi rename<CR>
+'''
+
+markdown = '''
+"let g:vim_markdown_folding_disabled = 1
+set wrap
+'''
+
+tex = '''
+set conceallevel=0
+'''
+
+vim = '''
+if line('$') > 1000
+  syntax sync minlines=200
+endif
+
+"setlocal foldmethod=indent
+setlocal shiftwidth=2 softtabstop=2
+setlocal iskeyword+=:,#
+'''
+
+qfreplace = 'setlocal nofoldenable'
+
+toml = 'syntax sync minlines=500'
+
+help = '''
+set nolist
+setlocal iskeyword+=:
+setlocal iskeyword+=#
+setlocal iskeyword+=-
+'''
+
+cpp = '''
+set commentstring=//%s
+'''

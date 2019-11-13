@@ -1,0 +1,50 @@
+From ba2d1018c8e6ca2aa9c32b9e95fb2d1f7c1b0767 Mon Sep 17 00:00:00 2001
+From: ZhaoGuoPan <2780496387@qq.com>
+Date: Sun, 29 Jul 2018 19:41:34 +0800
+Subject: [PATCH] fix `let &filetype=&filetype` break highlight
+
+---
+ ftplugin/markdown.vim | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/ftplugin/markdown.vim b/ftplugin/markdown.vim
+index 68d1d3d..0894ac7 100644
+--- a/ftplugin/markdown.vim
++++ b/ftplugin/markdown.vim
+@@ -727,7 +727,7 @@ function! s:MarkdownHighlightSources(force)
+                 let filetype = ft
+             endif
+             let group = 'mkdSnippet' . toupper(substitute(filetype, "[+-]", "_", "g"))
+-            if !has_key(b:mkd_included_filetypes, filetype)
++            if a:force || !has_key(b:mkd_included_filetypes, filetype)
+                 let include = s:SyntaxInclude(filetype)
+                 let b:mkd_included_filetypes[filetype] = 1
+             else
+@@ -769,6 +769,7 @@ endfunction
+ 
+ function! s:MarkdownRefreshSyntax(force)
+     if &filetype == 'markdown' && line('$') > 1
++        let g:vim_markdown_refresh_force = 0
+         call s:MarkdownHighlightSources(a:force)
+     endif
+ endfunction
+@@ -779,11 +780,12 @@ function! s:MarkdownClearSyntaxVariables()
+     endif
+ endfunction
+ 
++let g:vim_markdown_refresh_force = 1
+ augroup Mkd
+     autocmd! * <buffer>
+-    autocmd BufWinEnter <buffer> call s:MarkdownRefreshSyntax(1)
++    autocmd BufWinEnter <buffer> call s:MarkdownRefreshSyntax(g:vim_markdown_refresh_force)
+     autocmd BufUnload <buffer> call s:MarkdownClearSyntaxVariables()
+-    autocmd BufWritePost <buffer> call s:MarkdownRefreshSyntax(0)
+-    autocmd InsertEnter,InsertLeave <buffer> call s:MarkdownRefreshSyntax(0)
+-    autocmd CursorHold,CursorHoldI <buffer> call s:MarkdownRefreshSyntax(0)
++    autocmd BufWritePost <buffer> call s:MarkdownRefreshSyntax(g:vim_markdown_refresh_force)
++    autocmd InsertEnter,InsertLeave <buffer> call s:MarkdownRefreshSyntax(g:vim_markdown_refresh_force)
++    autocmd CursorHold,CursorHoldI <buffer> call s:MarkdownRefreshSyntax(g:vim_markdown_refresh_force)
+ augroup END
+-- 
+2.18.0.windows.1
+

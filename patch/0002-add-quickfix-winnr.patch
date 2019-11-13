@@ -1,0 +1,29 @@
+From d7664af7ac029def80cc42dfa5280b2e69fd109e Mon Sep 17 00:00:00 2001
+From: HP-cmd <zgpio@qq.com>
+Date: Sat, 24 Nov 2018 13:18:34 +0800
+Subject: [PATCH 2/2] add quickfix winnr
+
+---
+ autoload/airline/extensions/quickfix.vim | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/autoload/airline/extensions/quickfix.vim b/autoload/airline/extensions/quickfix.vim
+index 2680371..1eff048 100644
+--- a/autoload/airline/extensions/quickfix.vim
++++ b/autoload/airline/extensions/quickfix.vim
+@@ -13,9 +13,9 @@ endif
+ 
+ function! airline#extensions#quickfix#apply(...)
+   if &buftype == 'quickfix'
+-    let w:airline_section_a = airline#extensions#quickfix#get_type()
+-    let w:airline_section_b = '%{get(w:, "quickfix_title", "")}'
+-    let w:airline_section_c = ''
++    let w:airline_section_a = airline#section#create(['nr'])
++    let w:airline_section_b = airline#extensions#quickfix#get_type()
++    let w:airline_section_c = '%{get(w:, "quickfix_title", "")}'
+     let w:airline_section_x = ''
+   endif
+ endfunction
+-- 
+2.20.1 (Apple Git-117)
+
