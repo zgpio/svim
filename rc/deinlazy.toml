@@ -324,12 +324,6 @@ call echodoc#enable()
 #repo = 'liuchengxu/vista.vim'
 #on_if = 1
 
-# [[plugins]]
-# repo = 'davidhalter/jedi-vim'
-# on_ft = 'python'
-# hook_source = '''
-# '''
-
 #[[plugins]]
 #repo = 'Shougo/neco-syntax'
 
