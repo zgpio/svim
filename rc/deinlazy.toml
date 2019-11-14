@@ -610,10 +610,9 @@ hook_add = '''
 let s:ftIgnore = ['qf', 'defx', 'tree']
 autocmd MyAutoCmd FileType *
   \ if index(s:ftIgnore, &ft) < 0
-  \|  nmap <silent>sa <Plug>(operator-surround-append)a
-  \|  nmap <silent>sd <Plug>(operator-surround-delete)a
-  \|  nmap <silent>sr <Plug>(operator-surround-replace)a
-  \|  nmap <silent>sc <Plug>(operator-surround-replace)a
+  \|  nmap <silent>sa <Plug>(operator-surround-append)
+  \|  nmap <silent>sd <Plug>(operator-surround-delete)
+  \|  nmap <silent>sr <Plug>(operator-surround-replace)
   \|endif
 '''
 
