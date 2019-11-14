@@ -740,7 +740,7 @@ source $root/rc/plugins/neoformat.vim
 # Ubuntu: ~/.local/bin/yapf
 hook_post_update = '''
 wincmd n
-term pip3 install --upgrade --user yapf
+term python -m pip install --upgrade --user yapf
 "term pip install --upgrade --user autopep8
 '''
 
