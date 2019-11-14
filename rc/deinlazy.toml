@@ -594,8 +594,6 @@ on_event = 'InsertEnter'
 # '''
 
 [[plugins]]
-repo = 'https://gitee.com/zgpio/vim-operator-user'  # Mirror: 'kana/vim-operator-user'
-[[plugins]]
 repo = 'https://gitee.com/zgpio/vim-operator-surround'  # Mirror: 'rhysd/vim-operator-surround'
 depends = 'vim-operator-user'
 on_map = {n = '<Plug>'}

@@ -84,8 +84,8 @@ repo = 'delphinus/vim-toml-dein'
 #[[plugins]]
 #repo = 'kana/vim-textobj-user'
 
-#[[plugins]]
-#repo = 'kana/vim-operator-user'
+[[plugins]]
+repo = 'https://gitee.com/zgpio/vim-operator-user'  # Mirror: 'kana/vim-operator-user'
 
 # Requirements: unite.vim and vimproc and ssh commands.
 # [[plugins]]
