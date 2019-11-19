@@ -36,7 +36,7 @@ func! acm#compile()
     " On Windows, rename `mingw32-make.exe` to `make.exe`
     " let &l:makeprg = 'make -C ' . expand("%:p:h") . ' OBJS=' . Exe
     let &l:makeprg = 'make -C ' . $OJ_BUILD
-    let str = 'cmake -S ' . $OJ . ' -B '. $OJ_BUILD . ' -DMAIN:STRING=' . Src . ' ..'
+    let str = printf('cmake -S %s -B %s -DMAIN:STRING=%s ..', $OJ, $OJ_BUILD, Src)
     let job1 = jobstart(['bash', '-c', str], extend({'shell': 'shell1'}, s:callbacks))
     " let &l:makeprg = save
   elseif ext == "py"
