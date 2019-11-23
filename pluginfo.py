@@ -42,6 +42,7 @@ mirror_list = [
     Plugin('numirias/semshi'),
     Plugin('norcalli/nvim-colorizer.lua'),
     Plugin('plasticboy/vim-markdown', patch=True),
+    Plugin('pseewald/vim-anyfold'),
     Plugin('rhysd/accelerated-jk'),
     Plugin('rhysd/vim-clang-format'),
     Plugin('rhysd/vim-operator-surround'),

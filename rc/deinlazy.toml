@@ -82,10 +82,10 @@ highlight TagbarSignature guifg=Purple ctermfg=Green
 '''
 
 [[plugins]]
-repo = 'https://github.com/pseewald/vim-anyfold'  # Mirror: ''
+repo = 'https://gitee.com/zgpio/vim-anyfold'  # Mirror: 'pseewald/vim-anyfold'
 on_ft = ['python', 'cpp', 'c', 'vim']
 hook_add = '''
-autocmd Filetype * AnyFoldActivate
+autocmd Filetype * if exists(':AnyFoldActivate') | exe 'AnyFoldActivate' | endif
 '''
 
 [[plugins]]
@@ -454,7 +454,6 @@ call defx#custom#column('filename', {
 defx = '''
 " nnoremap <silent><buffer><expr> t defx#do_action('trans', expand("<cword>"))
 " Define mappings
-set nonu norelativenumber
 
 nnoremap <silent><buffer><expr> <CR> defx#async_action('drop')
 nnoremap <silent><buffer><expr> s defx#do_action('multi', [['drop', 'split']])
