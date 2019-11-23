@@ -320,7 +320,7 @@ if has('nvim')
 else
   set ttyfast
 endif
-let s:ftIgnore = ['defx']
+let s:ftIgnore = ['defx', 'denite', 'denite-filter']
 
 autocmd MyAutoCmd FileType *
   \ if index(s:ftIgnore, &ft) < 0
