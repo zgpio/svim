@@ -323,7 +323,7 @@ endif
 let s:ftIgnore = ['defx', 'denite', 'denite-filter']
 
 autocmd MyAutoCmd FileType *
-  \ if index(s:ftIgnore, &ft) < 0
+  \ if !count(s:ftIgnore, &ft)
   \|  set number relativenumber
   \|endif
 

@@ -364,7 +364,7 @@ nnoremap <silent> [Window]<Space> :<C-u>Denite -start-filter file/rec:$root<CR>
 " 要求Note在home目录
 nnoremap <silent> mm :<C-u>Denite -start-filter file/rec:~/Note<CR>
 nnoremap <silent><expr> / line('$') > 100000 ? '/' :
-    \ ":\<C-u>Denite -split='floating' -buffer-name=search -smartcase -start-filter line\<CR>"
+    \ ":\<C-u>Denite -split='floating' -buffer-name=search -smartcase -start-filter -highlight-window-background=CursorLine line\<CR>"
 nnoremap <silent> * :<C-u>DeniteCursorWord -split='floating' -buffer-name=search line<CR>
 nnoremap <silent> [Window]s :<C-u>Denite file/point file/old -sorters=sorter/rank
     \ `finddir('.git', ';') != '' ? 'file/rec/git' : 'file/rec'` file file:new<CR>

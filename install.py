@@ -278,10 +278,11 @@ def update(mirror_list):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Install Scripts')
-    parser.add_argument('--uri', type=str, nargs='+', help='specific uri')
-    parser.add_argument('-d', '--download-vim', action='store_true', default=False)
+    parser.add_argument('--uri', type=str, nargs='+', help='specific update uri')
+    parser.add_argument('-d', '--download-vim', action='store_true', default=False,
+                        help='download nvim from release.')
     parser.add_argument('-r', action='store_true', default=False,
-                        help='Replace vim.')
+                        help='Replace nvim.')
     parser.add_argument('--deps', action='store_true', default=False)
     args = parser.parse_args()
     # TODO: 导出
