@@ -43,7 +43,8 @@ func! acm#compile()
     if has('nvim')
       exe 'split'
     endif
-    exe 'terminal python3 ' . Src
+    let cmd = printf('terminal python3 "%s"', Src)
+    exe cmd
   else
     echohl WarningMsg | echo " Incorrect source file"
   endif
