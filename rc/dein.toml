@@ -5,6 +5,28 @@
 #repo = 'vheon/vim-cursormode'
 
 [[plugins]]
+repo = 'https://gitee.com/zgpio/LeaderF'  # Mirror: 'Yggdroot/LeaderF'
+#on_map = {n = ['<leader>f']}
+#on_map = {n = ['<leader>f', '<leader>b']}
+#build = '.\install.bat'
+hook_post_update = '''
+let rtp = dein#get('LeaderF')['rtp']
+exe 'cd ' . rtp
+wincmd n
+if g:Windows
+    term .\install.bat
+else
+    term ./install.sh
+endif
+'''
+hook_add = '''
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_GtagsAutoGenerate = 1
+let g:Lf_Gtagslabel = 'native-pygments'
+let g:Lf_ShortcutB = ''
+'''
+
+[[plugins]]
 repo = 'https://gitee.com/zgpio/vim-airline-themes'  # Mirror: 'vim-airline/vim-airline-themes'
 [[plugins]]
 repo = 'https://gitee.com/zgpio/vim-airline'  # Modified: 'vim-airline/vim-airline'

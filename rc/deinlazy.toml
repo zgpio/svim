@@ -145,27 +145,6 @@ vmap <silent> <Leader>t <Plug>TranslateWV
 
 
 [[plugins]]
-repo = 'https://gitee.com/zgpio/LeaderF'  # Mirror: 'Yggdroot/LeaderF'
-# {}括号的使用
-on_map = {n = ['<leader>f']}
-# on_map = {n = ['<leader>f', '<leader>b']}
-#build = '.\install.bat'
-hook_post_update = '''
-let rtp = dein#get('LeaderF')['rtp']
-exe 'cd ' . rtp
-wincmd n
-if g:Windows
-    term .\install.bat
-else
-    term ./install.sh
-endif
-'''
-hook_source = '''
-let g:Lf_ShortcutB = ''
-call vimrc#on_filetype()
-'''
-
-[[plugins]]
 repo = 'https://gitee.com/zgpio/vim-gitgutter'  # Mirror: 'airblade/vim-gitgutter'
 on_event = 'BufRead'
 hook_source = '''
