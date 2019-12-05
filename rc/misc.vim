@@ -337,7 +337,7 @@ endif
 if g:Windows
   set listchars=tab:>-,trail:-,extends:>,precedes:<
 else
-  set listchars=tab:▸\ ,trail:-,extends:»,precedes:«,nbsp:%
+  set listchars=tab:▸\ ,trail:•,extends:»,precedes:«,nbsp:%
 endif
 " Always display statusline.
 set laststatus=2
