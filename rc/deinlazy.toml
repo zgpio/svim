@@ -1,5 +1,4 @@
 # vim: set sw=2 sts=4 et tw=78 foldmarker=, foldlevel=0 foldmethod=marker:
-# hook_add/on_cmd/on_map/on_event are collected into state_gvim.vim
 
 [[plugins]]
 repo = 'https://gitee.com/zgpio/vim-devicons'  # Mirror: 'ryanoasis/vim-devicons'
@@ -29,9 +28,8 @@ repo = 'https://gitee.com/zgpio/wildfire.vim'  # Mirror: 'gcmt/wildfire.vim'
 on_map = '<Plug>(wildfire-'
 # dirty hack: silent! unmap <buffer> <CR>
 hook_add = '''
-let s:ftIgnore = ['qf']
 autocmd MyAutoCmd BufReadPre *
-    \ if index(s:ftIgnore, &ft) < 0
+    \ if index(['qf'], &ft) < 0
     \|  map <buffer> <CR> <Plug>(wildfire-fuel)
     \|endif
 '''
@@ -485,9 +483,8 @@ let g:matchup_matchparen_status_offscreen = 0
 repo = 'https://gitee.com/zgpio/tabular'  # Mirror: 'godlygeek/tabular'
 on_map = '<leader>a'
 hook_source = '''
-let s:ftIgnore = ['qf', 'defx', 'tree']
 autocmd MyAutoCmd FileType *
-  \ if index(s:ftIgnore, &ft) < 0
+  \ if index(['qf', 'defx', 'tree'], &ft) < 0
   \|  nmap <Leader>a& :Tabularize /&<CR>
   \|  vmap <Leader>a& :Tabularize /&<CR>
   \|  nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
@@ -552,8 +549,7 @@ function! InitCaw() abort
     xmap <buffer> gcc <Plug>(caw:hatpos:toggle)
   endif
 endfunction
-let s:ignore = ['qf']
-autocmd MyAutoCmd FileType * if index(s:ignore, &ft) < 0 | call InitCaw() | endif
+autocmd MyAutoCmd FileType * if index(['qf'], &ft) < 0 | call InitCaw() | endif
 '''
 
 [[plugins]]
@@ -577,9 +573,8 @@ depends = 'vim-operator-user'
 on_map = {n = '<Plug>'}
 # TODO: <buffer> map
 hook_add = '''
-let s:ftIgnore = ['qf', 'defx', 'tree']
 autocmd MyAutoCmd FileType *
-  \ if index(s:ftIgnore, &ft) < 0
+  \ if index(['qf', 'defx', 'tree'], &ft) < 0
   \|  nmap <silent><buffer>sa <Plug>(operator-surround-append)
   \|  nmap <silent><buffer>sd <Plug>(operator-surround-delete)
   \|  nmap <silent><buffer>sr <Plug>(operator-surround-replace)
@@ -612,9 +607,8 @@ let g:mkdp_auto_close = 0
 repo = 'https://gitee.com/zgpio/vim-jplus'  # Mirror: 'osyo-manga/vim-jplus'
 on_map = {n = '<Plug>'}
 hook_add = '''
-let s:ftIgnore = ['qf', 'defx', 'tree']
 autocmd MyAutoCmd FileType *
-  \ if index(s:ftIgnore, &ft) < 0
+  \ if index(['qf', 'defx', 'tree'], &ft) < 0
   \|  nmap <buffer>J <Plug>(jplus)
   \|endif
 '''
