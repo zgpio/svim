@@ -100,6 +100,8 @@ nmap <silent><buffer> <leader>rr :Semshi rename<CR>
 markdown = '''
 "let g:vim_markdown_folding_disabled = 1
 set wrap
+" https://github.com/plasticboy/vim-markdown/issues/353
+unmap <buffer> gx
 '''
 
 tex = '''
