@@ -73,7 +73,7 @@ set smartcase
 
 " Enable incremental search.
 set incsearch
-" Don't highlight search result.
+" Disable highlight search result.
 set nohlsearch
 
 " Searches wrap around the end of the file.
@@ -479,15 +479,15 @@ set conceallevel=2 concealcursor=
 " http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
 " Restore cursor to file position in previous editing session
 function! ResCur()
-    if line("'\"") <= line("$")
-        silent! normal! g`"
-        return 1
-    endif
+  if line("'\"") <= line("$")
+    silent! normal! g`"
+    return 1
+  endif
 endfunction
 
 augroup resCur
-    autocmd!
-    autocmd BufWinEnter * call ResCur()
+  autocmd!
+  autocmd BufWinEnter * call ResCur()
 augroup END
 
 " 
