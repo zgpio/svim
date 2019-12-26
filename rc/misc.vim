@@ -138,7 +138,7 @@ set hidden
 
 " Search home directory path on cd.
 " But can't complete.
-"  set cdpath+=~
+" set cdpath+=~
 
 " foldenable default on
 set foldmethod=indent
@@ -169,16 +169,6 @@ set fillchars=vert:\│
 "   let sub = substitute(line, '/\*\|\*/\|{{{\d\=', '', 'g')
 "   return v:folddashes.sub
 " endfunction
-
-" "+-" ref to https://github.com/vim/vim/issues/3584#issue-376289360
-"function! MyFoldText()
-"  let line = getline(v:foldstart)
-"  let sub = substitute(line, '^\s*\|//\s*\|/\*\|\*/\|{{{\d\=', '', 'g')
-"  let oneLessDash = strpart(string(v:folddashes),1,len(string(v:folddashes))-2)
-"  let foldlinecount = foldclosedend(v:foldstart) - foldclosed(v:foldstart) + 1
-"  let lineCount = " " . string(foldlinecount) . " lines: "
-"  return "+" . oneLessDash . lineCount . sub
-"endfunction
 "set foldtext=MyFoldText()
 
 let defaults = {'placeholder': '...', 'line': 'L', 'multiplication': '*' }
