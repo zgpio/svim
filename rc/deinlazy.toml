@@ -341,7 +341,7 @@ nnoremap <silent> [Window]<Space> :<C-u>Denite -start-filter file/rec:$root<CR>
 " 要求Note在home目录
 nnoremap <silent> mm :<C-u>Denite -start-filter file/rec:~/Note<CR>
 nnoremap <silent><expr> / line('$') > 100000 ? '/' :
-    \ ":\<C-u>Denite -split='floating' -buffer-name=search -smartcase -start-filter -highlight-window-background=CursorLine line\<CR>"
+    \ ":\<C-u>Denite -split='floating' -buffer-name=search -start-filter -highlight-window-background=CursorLine line\<CR>"
 nnoremap <silent> * :<C-u>DeniteCursorWord -split='floating' -buffer-name=search line<CR>
 nnoremap <silent> [Window]s :<C-u>Denite file/point file/old -sorters=sorter/rank
     \ `finddir('.git', ';') != '' ? 'file/rec/git' : 'file/rec'` file file:new<CR>
@@ -373,6 +373,7 @@ nnoremap <silent><buffer><expr> a denite#do_map('choose_action')
 nnoremap <silent><buffer><expr> d denite#do_map('do_action', 'delete')
 nnoremap <silent><buffer><expr> p denite#do_map('do_action', 'preview')
 nnoremap <silent><buffer><expr> q denite#do_map('quit')
+nnoremap <silent><buffer><expr> <esc> denite#do_map('quit')
 nnoremap <silent><buffer><expr><nowait> ' denite#do_map('quick_move')
 nnoremap <silent><buffer><expr> i denite#do_map('open_filter_buffer')
 nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
@@ -571,7 +572,6 @@ on_event = 'InsertEnter'
 repo = 'https://gitee.com/zgpio/vim-operator-surround'  # Mirror: 'rhysd/vim-operator-surround'
 depends = 'vim-operator-user'
 on_map = {n = '<Plug>'}
-# TODO: <buffer> map
 hook_add = '''
 autocmd MyAutoCmd FileType *
   \ if index(['qf', 'defx', 'tree'], &ft) < 0

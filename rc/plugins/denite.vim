@@ -18,7 +18,7 @@ else
 
   " Ag(银) command on grep source
   call denite#custom#var('grep', 'command', ['ag'])
-  call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep', '--ignore=tags'])
+  call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep', '--ignore=tags', '--smart-case'])
   call denite#custom#var('grep', 'recursive_opts', [])
   call denite#custom#var('grep', 'pattern_opt', [])
   call denite#custom#var('grep', 'separator', ['--'])
@@ -110,6 +110,7 @@ call denite#custom#option('default', {
 
 call denite#custom#option('_', {
   \ 'statusline': v:false,
+  \ 'smartcase': v:true,
   \ 'prompt': ''
   \ })
 " ➭
