@@ -33,8 +33,7 @@ else
 endif
 
 "---------------------------------------------------------------------------
-" Options:
-"set mouse=
+set mouse=nv
 set mousemodel=
 
 " Don't focus the window when the mouse pointer is moved.

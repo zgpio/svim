@@ -87,6 +87,3 @@ if exists('+termguicolors')
   " NOTE: mac terminal 不支持24位色
   " set termguicolors
 endif
-
-" Disable the mouse.
-set mouse=

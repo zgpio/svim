@@ -45,6 +45,9 @@ if !has('vim_starting')
 endif
 
 source $root/rc/misc.vim
+if filereadable($root . '/rc/private.vim')
+  source $root/rc/private.vim
+endif
 
 if g:Unix
   source $root/rc/unix.vim
