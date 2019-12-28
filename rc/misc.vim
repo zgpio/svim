@@ -310,7 +310,7 @@ if has('nvim')
 else
   set ttyfast
 endif
-let s:ftIgnore = ['defx', 'denite', 'denite-filter']
+let s:ftIgnore = ['defx', 'denite', 'denite-filter', 'translator_border', 'translator']
 
 autocmd MyAutoCmd FileType *
   \ if !count(s:ftIgnore, &ft)
@@ -790,7 +790,7 @@ nnoremap Y y$
 " from spacevim
 for i in range(1, 9)
   " The <C-U> is used to remove the range that Vim may insert.
-  exe "nnoremap <silent> [Space]" . i . " :<C-U>call vimrc#windowjump(" . i . ")<CR>"
+  exe printf('nnoremap <silent> [Space]%d :<C-U>call vimrc#windowjump(%d)<CR>', i, i)
 endfor
 
 " 
