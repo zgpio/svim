@@ -624,7 +624,10 @@ function! s:q()
   if v:count == 0
     if winnr('$') != 1
       call vimrc#windowjump(winnr())
-      exe cur_winnr.'close'
+      try
+        exe cur_winnr.'close'
+      catch /.*/
+      endtry
     endif
   elseif max_winnr >= v:count  " 合法性检查
     exe v:count . "wincmd q"
