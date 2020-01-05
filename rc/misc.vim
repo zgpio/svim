@@ -10,7 +10,6 @@ if !exists('g:colors_name')
   "set background=dark " for the dark version
   "colorscheme one
   colorscheme onedark
-  hi link NormalFloat NONE
 endif
 
 " Encoding: 
