@@ -676,7 +676,7 @@ let g:neomake_virtualtext_current_error = 0
 
 [[plugins]]
 repo = 'https://gitee.com/zgpio/coc.nvim'  # Mirror: 'neoclide/coc.nvim'
-on_ft = ['vim', 'c', 'cpp', 'python', 'go']
+on_ft = ['vim', 'c', 'cpp', 'python', 'go', 'lua']
 rev = 'release'
 depends = 'ultisnips'
 hook_post_update = '''

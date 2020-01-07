@@ -73,7 +73,8 @@ def download_vim(replace=False):
         download(url, path)
     if replace and osName == 'Darwin':
         old: Path = Path.home().joinpath('nvim-osx64')
-        backup: Path = Path.home().joinpath('nvim-osx64.before')
+        last_modified = time.strftime('%Y-%m-%d', time.gmtime(os.path.getmtime(os.path.join(old, 'bin', 'nvim'))))
+        backup: Path = Path.home().joinpath(f'nvim-osx64-{last_modified}')
         if old.exists():
             os.system(f'mv {old} {backup}')
         cmd = f'tar xzvf {path} -C {dest}'
