@@ -8,6 +8,22 @@ let g:Linux = has('unix') && !has('macunix') && !has('win32unix')
 let g:OSX = has('macunix')
 lockvar g:Windows
 lockvar g:Unix
+function Platform() abort
+  if exists('$ALACRITTY_LOG')
+    return 'alacritty'
+  elseif exists('$KITTY_WINDOW_ID')
+    return 'kitty'
+  elseif $TERM_PROGRAM == 'Apple_Terminal'
+    return 'apple'
+  elseif exists(':GuiFont')
+    " TODO nvim_gui_shim.vim 需要提前加载
+    return 'nvim-qt'
+  elseif has("gui_macvim")
+    return 'macvim'
+  else
+    return 'unknown'
+  end
+endfunction
 
 " NOTE: Windows修改注册表设置cmd使用utf-8(65001), 而且,
 " 不久之后cmd将默认使用utf-8

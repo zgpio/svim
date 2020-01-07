@@ -535,30 +535,31 @@ nnoremap <silent>       [WS]  :vertical resize -3<CR>
 nnoremap <silent><expr> [HS]  winheight(0) <= (&lines-3-&cmdheight) ? ':resize -3<CR>' : ' '
 nnoremap <silent>       [HB]  :resize +3<CR>
 
-" if $TERM_PROGRAM != 'Apple_Terminal'
-" if exists('$ALACRITTY_LOG')
-" if exists(':GuiFont')
-
-" Alacritty/MacVim workaround
-map ˚ [HB]
-map ∆ [HS]
-map ˙ [WS]
-map ¬ [WB]
-
-map <A-k> [HB]
-map <A-j> [HS]
-map <A-h> [WS]
-map <A-l> [WB]
-
-" neovim-qt workaround
-map <A-˚> [HB]
-map <A-∆> [HS]
-map <A-˙> [WS]
-map <A-¬> [WB]
-
-nmap <A-9> :call acm#compile()<CR>
-nmap ª :call acm#compile()<CR>
-imap <A-9> <ESC>:call acm#compile()<CR>
+let s:platform = Platform()
+if s:platform == 'alacritty' || s:platform == 'macvim'
+  " Alacritty/MacVim workaround
+  " <A-k>:˚  <A-j>:∆  <A-h>:˙  <A-l>:¬  <A-9>:ª  <A-8>:•
+  map ˚ [HB]
+  map ∆ [HS]
+  map ˙ [WS]
+  map ¬ [WB]
+  nmap ª :call acm#compile()<CR>
+  nmap <silent> • :<C-u>call <SID>rm_trailingSpace()<CR>
+elseif s:platform == 'nvim-qt'
+  " nvim-qt workaround
+  map <A-˚> [HB]
+  map <A-∆> [HS]
+  map <A-˙> [WS]
+  map <A-¬> [WB]
+else
+  map <A-k> [HB]
+  map <A-j> [HS]
+  map <A-h> [WS]
+  map <A-l> [WB]
+  nmap <A-9> :call acm#compile()<CR>
+  imap <A-9> <ESC>:call acm#compile()<CR>
+  nmap <silent> <A-8> :<C-u>call <SID>rm_trailingSpace()<CR>
+end
 
 " Command-line mode keymappings:
 " <C-a>, A: move to head.
@@ -758,6 +759,7 @@ noremap <space>' :call <SID>open_default_shell()<CR>
 " Todo: 困扰rename在不需要替换时被替换
 " :cabbrev rename Rename
 
+" 清除行尾空格, :h :s 查看'替换'帮助
 func! s:rm_trailingSpace() abort
   let save_cursor = getcurpos()
   try
@@ -769,9 +771,7 @@ func! s:rm_trailingSpace() abort
 
   call setpos('.', save_cursor)
 endf
-" 清除行尾空格, :h :s 查看'替换'帮助
-nmap <silent> <A-8> :<C-u>call <SID>rm_trailingSpace()<CR>
-nmap <silent> • :<C-u>call <SID>rm_trailingSpace()<CR>
+
 " 清除行尾 ^M 符号
 nmap cM :%s/\r$//g<CR>:noh<CR>
 
