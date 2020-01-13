@@ -73,4 +73,7 @@ def update(uri=None):
 
 
 if __name__ == "__main__":
-    update()
+    parser = argparse.ArgumentParser(description='Update Scripts')
+    parser.add_argument('--uri', type=str, nargs='+', help='specific update uri')
+    args = parser.parse_args()
+    update(args.uri)
