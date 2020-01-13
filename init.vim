@@ -2,7 +2,6 @@
 " profile file ~/.vim/rc/*
 " profile func dein#*
 
-" ln -s ~/.vim  ~/.config/nvim
 if &compatible
   set nocompatible
 endif
