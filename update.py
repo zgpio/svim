@@ -43,7 +43,7 @@ def update(uri=None):
     if uri:
         mirror_list = [i for i in mirror_list if i.uri in uri]
         _ = [i.uri for i in mirror_list]
-        # print(args.uri)
+        # print(uri)
         print(_)
     # Single process (one by one) Total time: 294s
     # Multi process Total time: 103s
