@@ -147,6 +147,8 @@ def vim_deps_install():
     """Install Vim and dependence."""
     ostype = platform.system()
     # TODO: 细化系统发行版
+    # https://github.com/k-takata/the_silver_searcher-win32/releases
+    # sudo apt-get install silversearcher-ag
     if ostype == 'Linux':
         # TODO: 使用nvim.appimage
         os.system('sudo pacman --noconfirm -S the_silver_searcher')

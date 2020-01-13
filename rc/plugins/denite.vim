@@ -10,10 +10,6 @@ if executable('rg')
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--no-heading'])
 else
-  " https://github.com/k-takata/the_silver_searcher-win32/releases
-  " sudo apt-get install silversearcher-ag
-  " pacman -S the_silver_searcher
-  " brew install the_silver_searcher
   call denite#custom#var('file/rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
 
   " Ag(银) command on grep source
