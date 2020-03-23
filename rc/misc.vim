@@ -352,12 +352,11 @@ let &g:titlestring="
 " let-&设置的优点: 不需要反斜杠转义空格
 " TODO 原来的设置不能及时刷新
 " "%{winnr('$')>1?'['.winnr().'/'.winnr('$').(winnr('#')==winnr()?'#':'').']':''}\ "
-"let &g:statusline="%{winnr('$')>1?'['.winnr().']':''}\ "
-"      \ . "%{(&previewwindow?'[preview] ':'').expand('%:t')}%m"
-"      \ . "%=%{(winnr('$')==1 || winnr('#')!=winnr()) ? '['.(&filetype!=''?&filetype.',':'')"
-"      \ . ".(&fenc!=''?&fenc:&enc).','.&ff.']' : ''}"
-"      \ . "%{printf('%'.(len(line('$'))+2).'d/%d',line('.'),line('$'))}"
-
+let &g:statusline="%{winnr('$')>1?'['.winnr().']':''}\ "
+      \ . "%{(&previewwindow?'[preview] ':'').expand('%:p:~:.')}%m"
+      \ . "%=%{(winnr('$')==1 || winnr('#')!=winnr()) ? '['.(&filetype!=''?&filetype.',':'')"
+      \ . ".(&fenc!=''?&fenc:&enc).','.&ff.']' : ''}"
+      \ . "%{printf('%'.(len(line('$'))+2).'d/%d',line('.'),line('$'))}"
 " Turn down a long line appointed in 'breakat'
 set linebreak
 " TODO 还不能理解breakat的行为

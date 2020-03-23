@@ -26,14 +26,14 @@ let g:Lf_Gtagslabel = 'native-pygments'
 let g:Lf_ShortcutB = ''
 '''
 
-[[plugins]]
-repo = 'https://gitee.com/zgpio/vim-airline-themes'  # Mirror: 'vim-airline/vim-airline-themes'
-[[plugins]]
-repo = 'https://gitee.com/zgpio/vim-airline'  # Modified: 'vim-airline/vim-airline'
-# 非lazy插件hook_source不被自动调用
-hook_add = '''
-source $root/rc/plugins/airline.vim
-'''
+#[[plugins]]
+#repo = 'https://gitee.com/zgpio/vim-airline-themes'  # Mirror: 'vim-airline/vim-airline-themes'
+#[[plugins]]
+#repo = 'https://gitee.com/zgpio/vim-airline'  # Modified: 'vim-airline/vim-airline'
+## 非lazy插件hook_source不被自动调用
+#hook_add = '''
+#source $root/rc/plugins/airline.vim
+#'''
 
 # [[plugins]]
 # repo = '~/.vim/vim-zoom'
