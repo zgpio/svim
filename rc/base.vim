@@ -36,7 +36,7 @@ set fileencodings=ucs-bom,utf-8,gbk,utf-16le,cp1252,iso-8859-15
 
 " Setting of terminal encoding.
 if !has('gui_running') && g:Windows
-  set termencoding=cp936
+  " set termencoding=cp936
 endif
 
 if has('multi_byte_ime')
