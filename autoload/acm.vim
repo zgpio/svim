@@ -29,7 +29,7 @@ func! acm#compile()
   let Src = expand("%:p")
   let ext = expand("%:e")
   let Exe = expand("%:p:t:r").s:gen_ext
-  if ext == "c" || ext == "cpp" || ext == "cxx"
+  if ext == "c" || ext == "cpp" || ext == "cxx" || ext == "cc"
     " let save = &makeprg
     exe ":ccl"
     exe ":update"
@@ -68,6 +68,7 @@ function! AcmJobFinished() abort
   else
     echom printf('The job for maker %s exited non-zero: %s',
     \ context.jobinfo.maker.name, context.jobinfo.exit_code)
+    call luaeval('print(vim.inspect(_A))', context.jobinfo)
   endif
 endfunction
 autocmd MyAutoCmd User NeomakeJobFinished call AcmJobFinished()
