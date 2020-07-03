@@ -23,6 +23,7 @@ let s:callbacks = {
       \ }
 
 " TODO 路径依赖
+" TODO 支持中文源文件名
 let $OJ = expand('~/OJ')
 let $OJ_BUILD = expand('~/OJ/build')
 func! acm#compile()
@@ -36,7 +37,11 @@ func! acm#compile()
     " On Windows, rename `mingw32-make.exe` to `make.exe`
     " let &l:makeprg = 'make -C ' . expand("%:p:h") . ' OBJS=' . Exe
     let &l:makeprg = 'make -C ' . $OJ_BUILD
-    let str = printf('cmake -S %s -B %s -DMAIN:STRING=%s ..', $OJ, $OJ_BUILD, Src)
+    if strlen(Exe) != strchars(Exe)
+      let str = printf('cmake -S %s -B %s -DMAIN:STRING=%s -DTARGET:STRING=%s ..', $OJ, $OJ_BUILD, Src, 'test')
+    else
+      let str = printf('cmake -S %s -B %s -DMAIN:STRING=%s ..', $OJ, $OJ_BUILD, Src)
+    endif
     let job1 = jobstart(['bash', '-c', str], extend({'shell': 'shell1'}, s:callbacks))
     " let &l:makeprg = save
   elseif ext == "py"
@@ -52,7 +57,6 @@ endfunc
 
 function! AcmJobFinished() abort
   let context = g:neomake_hook_context
-  "echom string(context.jobinfo)
   if context.jobinfo.exit_code == 0 && context.jobinfo.maker.args!=[] && context.jobinfo.maker.args[1] =~ 'build'
     " let EXE = expand("%:p:h").'/exes/'.expand("%:p:t:r").s:gen_ext
     let EXE = $OJ_BUILD . '/' . expand("%:p:t:r")
@@ -61,13 +65,15 @@ function! AcmJobFinished() abort
       exe 'split'
     endif
     exe 'lcd' SRC
+    if strlen(EXE) != strchars(EXE)
+      let EXE = $OJ_BUILD . '/' . 'test'
+    endif
     exe 'terminal' EXE
     setlocal nonumber norelativenumber
     " setlocal statusline=%{b:term_title}
     echom EXE
   else
-    echom printf('The job for maker %s exited non-zero: %s',
-    \ context.jobinfo.maker.name, context.jobinfo.exit_code)
+    echom printf('The job for maker %s exited non-zero: %s', context.jobinfo.maker.name, context.jobinfo.exit_code)
     call luaeval('print(vim.inspect(_A))', context.jobinfo)
   endif
 endfunction
