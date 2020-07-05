@@ -126,7 +126,7 @@ on_event = 'BufRead'
 # repo = 'https://gitee.com/zgpio/vim-translator'
 # on_cmd = ['Ydc', 'Yde', 'Ydv']
 [[plugins]]
-repo = 'https://gitee.com/zgpio/vim-translate-me'  # Mirror: 'voldikss/vim-translate-me'
+repo = 'https://gitee.com/zgpio/vim-translator'  # Mirror: 'voldikss/vim-translator'
 on_if = 1
 hook_source = '''
 let g:translator_default_engines = ["youdao"]
