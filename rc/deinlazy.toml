@@ -129,7 +129,7 @@ on_event = 'BufRead'
 repo = 'https://gitee.com/zgpio/vim-translate-me'  # Mirror: 'voldikss/vim-translate-me'
 on_if = 1
 hook_source = '''
-let g:vtm_default_mapping = 0
+let g:translator_default_engines = ["youdao"]
 " <Leader>t 翻译光标下的文本，在命令行回显翻译内容
 "nmap <silent> <Leader>t <Plug>Translate
 "vmap <silent> <Leader>t <Plug>TranslateV

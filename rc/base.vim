@@ -65,7 +65,9 @@ if g:Windows
   set shellslash
 endif
 
-let $CACHE = expand('~/.cache')
+if !exists('$CACHE')
+  let $CACHE = expand('~/.cache')
+endif
 if !isdirectory(expand($CACHE))
   call mkdir(expand($CACHE), 'p')
 endif

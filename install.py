@@ -194,6 +194,9 @@ def vim_deps_install():
         # ./nvim-osx64/bin/nvim
 
         # brew install --HEAD neovim
+    elif ostype == 'Windows':
+        # https://git-scm.com/downloads
+        pass
 
 
 # TODO: 未完成
