@@ -38,9 +38,9 @@ func! acm#compile()
     " let &l:makeprg = 'make -C ' . expand("%:p:h") . ' OBJS=' . Exe
     let &l:makeprg = 'make -C ' . $OJ_BUILD
     if strlen(Exe) != strchars(Exe)
-      let str = printf('cmake -S %s -B %s -DMAIN:STRING=%s -DTARGET:STRING=%s ..', $OJ, $OJ_BUILD, Src, 'test')
+      let str = printf('cmake -S %s -B %s -DMAIN:STRING="%s" -DTARGET:STRING=%s ..', $OJ, $OJ_BUILD, Src, 'test')
     else
-      let str = printf('cmake -S %s -B %s -DMAIN:STRING=%s ..', $OJ, $OJ_BUILD, Src)
+      let str = printf('cmake -S %s -B %s -DMAIN:STRING="%s" ..', $OJ, $OJ_BUILD, Src)
     endif
     let job1 = jobstart(['bash', '-c', str], extend({'shell': 'shell1'}, s:callbacks))
     " let &l:makeprg = save
